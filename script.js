@@ -1,17 +1,12 @@
 const apiBaseUrl = "http://localhost"; // URL du backend
 
-// Fonction pour récupérer et afficher les trains
+// Fonction pour récupérer et afficher les trains avec leurs réparations
 async function fetchTrains() {
   try {
     const response = await fetch(`${apiBaseUrl}/trains`);
-
-    if (!response.ok) {
-      throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`Erreur HTTP : ${response.status}`);
 
     const trains = await response.json();
-    console.log("Trains récupérés :", trains);
-
     const tableBody = document.getElementById("train-table-body");
     const trainSelect = document.getElementById("train_id");
 
@@ -19,7 +14,6 @@ async function fetchTrains() {
     trainSelect.innerHTML = "";
 
     trains.forEach((train) => {
-      // Ajouter à la table
       const row = document.createElement("tr");
       row.innerHTML = `
                 <td>${train.id}</td>
@@ -28,7 +22,14 @@ async function fetchTrains() {
                     ${
                       train.repairs.length
                         ? `<ul>${train.repairs
-                            .map((rep) => `<li>${rep.type} (${rep.date})</li>`)
+                            .map(
+                              (rep) => `
+                            <li>
+                                ${rep.type} (${rep.date}) 
+                                <button class="delete-btn" onclick="deleteRepair(${rep.id})">❌</button>
+                            </li>
+                        `
+                            )
                             .join("")}</ul>`
                         : "<em>Aucune réparation</em>"
                     }
@@ -41,7 +42,6 @@ async function fetchTrains() {
             `;
       tableBody.appendChild(row);
 
-      // Ajouter à la liste déroulante pour les réparations
       const option = document.createElement("option");
       option.value = train.id;
       option.textContent = train.name;
@@ -51,9 +51,6 @@ async function fetchTrains() {
     console.error("Erreur lors de la récupération des trains :", error);
   }
 }
-
-// Charger les trains au démarrage
-fetchTrains();
 
 // Fonction pour ajouter un train
 document
@@ -100,3 +97,23 @@ async function deleteTrain(trainId) {
 
 // Charger les trains au démarrage
 fetchTrains();
+
+async function deleteRepair(repairId) {
+  if (!confirm("Voulez-vous vraiment supprimer cette réparation ?")) return;
+
+  try {
+    const response = await fetch(`${apiBaseUrl}/repairs/${repairId}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+    }
+
+    alert("Réparation supprimée !");
+    fetchTrains(); // Mettre à jour la liste
+  } catch (error) {
+    console.error("Erreur lors de la suppression :", error);
+    alert("Erreur lors de la suppression de la réparation.");
+  }
+}
