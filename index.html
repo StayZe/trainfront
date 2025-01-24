@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestion des Trains</title>
+  </head>
+  <body>
+    <h2>Liste des Trains et leurs Réparations</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom du Train</th>
+          <th>Réparations</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="train-table-body">
+        <!-- Les trains seront insérés ici via JavaScript -->
+      </tbody>
+    </table>
+
+    <h2>Ajouter un Train</h2>
+    <form id="add-train-form">
+      <label for="train_name">Nom du Train :</label>
+      <input type="text" id="train_name" required />
+      <button type="submit">Ajouter</button>
+    </form>
+
+    <h2>Ajouter une Réparation</h2>
+    <form id="add-repair-form">
+      <label for="train_id">Train :</label>
+      <select id="train_id" required>
+        <!-- Options générées dynamiquement -->
+      </select>
+
+      <label for="repair_type">Type de Réparation :</label>
+      <input type="text" id="repair_type" required />
+
+      <button type="submit">Ajouter</button>
+    </form>
+
+    <script src="script.js"></script>
+  </body>
+</html>
