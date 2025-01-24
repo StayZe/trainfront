@@ -16,30 +16,30 @@ async function fetchTrains() {
     trains.forEach((train) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-                <td>${train.id}</td>
-                <td>${train.name}</td>
-                <td>
-                    ${
-                      train.repairs.length
-                        ? `<ul>${train.repairs
-                            .map(
-                              (rep) => `
-                            <li>
-                                ${rep.type} (${rep.date}) 
-                                <button class="delete-btn" onclick="deleteRepair(${rep.id})">❌</button>
-                            </li>
-                        `
-                            )
-                            .join("")}</ul>`
-                        : "<em>Aucune réparation</em>"
-                    }
-                </td>
-                <td>
-                    <button class="delete-btn" onclick="deleteTrain(${
-                      train.id
-                    })">Supprimer</button>
-                </td>
-            `;
+        <td class="border p-3">${train.id}</td>
+        <td class="border p-3 font-semibold">${train.name}</td>
+        <td class="border p-3">
+          ${
+            train.repairs.length
+              ? `<ul class="flex flex-col gap-2">${train.repairs
+                  .map(
+                    (rep) => `
+                <li class="flex justify-between items-center p-2 bg-gray-200 rounded-md mb-1 gap-4">
+                  <span class="text-sm font-medium">${rep.type} (${rep.date})</span>
+                  <button class="bg-red-500 text-white px-2 py-1 text-xs rounded-md hover:bg-red-700 transition"
+                    onclick="deleteRepair(${rep.id})">x</button>
+                </li>
+              `
+                  )
+                  .join("")}</ul>`
+              : "<em class='text-gray-500'>Aucune réparation</em>"
+          }
+        </td>
+        <td class="border p-3 text-center">
+          <button class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-800 transition"
+            onclick="deleteTrain(${train.id})">Supprimer</button>
+        </td>
+      `;
       tableBody.appendChild(row);
 
       const option = document.createElement("option");
@@ -95,25 +95,13 @@ async function deleteTrain(trainId) {
   }
 }
 
-// Charger les trains au démarrage
-fetchTrains();
-
+// Fonction pour supprimer une réparation
 async function deleteRepair(repairId) {
-  if (!confirm("Voulez-vous vraiment supprimer cette réparation ?")) return;
-
-  try {
-    const response = await fetch(`${apiBaseUrl}/repairs/${repairId}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
-    }
-
-    alert("Réparation supprimée !");
-    fetchTrains(); // Mettre à jour la liste
-  } catch (error) {
-    console.error("Erreur lors de la suppression :", error);
-    alert("Erreur lors de la suppression de la réparation.");
+  if (confirm("Voulez-vous vraiment supprimer cette réparation ?")) {
+    await fetch(`${apiBaseUrl}/repairs/${repairId}`, { method: "DELETE" });
+    fetchTrains();
   }
 }
+
+// Charger les trains au démarrage
+fetchTrains();
