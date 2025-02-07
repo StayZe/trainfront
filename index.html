@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestion des Trains</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
+      .glass-morphism {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.125);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+      }
+      .modern-shadow {
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .modern-input {
+        transition: all 0.3s ease;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .modern-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center p-4">
+    <div
+      class="w-full glass-morphism rounded-3xl overflow-hidden modern-shadow"
+    >
+      <div
+        class="bg-gradient-to-br from-purple-400 to-pink-400 p-8 border-b border-gray-200"
+      >
+        <h2 class="text-4xl font-bold text-center text-white tracking-tight">
+          Toinou Airtrains
+        </h2>
+      </div>
+
+      <div class="p-8 space-y-8">
+        <!-- Train Table -->
+        <div
+          class="bg-white/70 rounded-2xl border border-gray-200/50 overflow-hidden modern-shadow"
+        >
+          <table class="w-full">
+            <thead>
+              <tr class="bg-gray-100/50 border-b border-gray-200">
+                <th class="p-4 text-center text-gray-600 font-medium">ID</th>
+                <th class="p-4 text-center text-gray-600 font-medium">
+                  Nom du Train
+                </th>
+                <th class="p-4 text-center text-gray-600 font-medium">
+                  Réparations
+                </th>
+                <th class="p-4 text-center text-gray-600 font-medium">Action</th>
+              </tr>
+            </thead>
+            <tbody id="train-table-body" class="divide-y divide-gray-200/50">
+              <!-- Trains will be inserted here dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Add Train Form -->
+          <div
+            class="bg-white/70 rounded-3xl border border-gray-200/50 modern-shadow p-6"
+          >
+            <h3 class="text-2xl font-bold mb-6 text-center text-gray-800">
+              Ajouter un Train
+            </h3>
+            <form id="add-train-form" class="space-y-6">
+              <div>
+                <label
+                  for="train_name"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Nom du Train
+                </label>
+                <input
+                  type="text"
+                  id="train_name"
+                  required
+                  class="w-full px-4 py-3 modern-input focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <button
+                type="submit"
+                class="w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-600 transition duration-300 font-semibold modern-shadow"
+              >
+                Ajouter
+              </button>
+            </form>
+          </div>
+
+          <!-- Add Repair Form -->
+          <div
+            class="bg-white/70 rounded-3xl border border-gray-200/50 modern-shadow p-6"
+          >
+            <h3 class="text-2xl font-bold mb-6 text-center text-gray-800">
+              Ajouter une Réparation
+            </h3>
+            <form id="add-repair-form" class="space-y-6">
+              <div>
+                <label
+                  for="train_id"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Train
+                </label>
+                <select
+                  id="train_id"
+                  required
+                  class="w-full px-4 py-3 modern-input focus:ring-2 focus:ring-green-500"
+                >
+                  <!-- Options will be generated dynamically -->
+                </select>
+              </div>
+              <div>
+                <label
+                  for="repair_type"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Type de Réparation
+                </label>
+                <select
+                  id="repair_type"
+                  required
+                  class="w-full px-4 py-3 modern-input focus:ring-2 focus:ring-green-500"
+                >
+                  <option value="">Sélectionner un type de réparation</option>
+                </select>
+              </div>
+              <button
+                type="submit"
+                class="w-full bg-green-500 text-white py-3 rounded-xl hover:bg-green-600 transition duration-300 font-semibold modern-shadow"
+              >
+                Ajouter
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
